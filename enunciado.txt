@@ -1,0 +1,37 @@
+Enunciado:
+
+Estás desarrollando un sistema de tienda online en Java.
+Cada vez que un pedido cambia al estado “ENVIADO”, deben ocurrir varias acciones:
+
+Enviar un correo electrónico al cliente con el número de seguimiento.
+Registrar el evento en un log de auditoría.
+Notificar a un módulo de estadísticas para que incremente un contador de “pedidos enviados hoy”.
+
+
+
+Requisitos:
+
+La clase principal que gestiona los pedidos (por ejemplo, PedidoService) no debe conocer los
+detalles de cómo se envía el email, cómo se registra el log ni cómo se actualizan las estadísticas.
+
+Debe ser posible añadir nuevas acciones en el futuro (por ejemplo, enviar notificación push a
+la app móvil) sin modificar el código de PedidoService.
+
+Puedes asumir que de momento solo te interesa simular las acciones con System.out.println(...)
+(nada real de correo/BD).
+
+
+
+Tu tarea:
+
+Define las interfaces y clases necesarias para aplicar el patrón Observer a este problema.
+
+
+
+Incluye:
+
+Una clase que represente el Subject (el que emite el evento de “pedido enviado”).
+Una interfaz de Observer y varias implementaciones: Email, Log, Estadísticas.
+Una clase Pedido sencilla y una clase PedidoService que, al marcar un pedido como “ENVIADO”,
+    dispare las notificaciones a los observers.
+Una clase Main donde creas lo necesario, suscribes los observers y pruebas el flujo.
