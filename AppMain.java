@@ -4,29 +4,25 @@ public class AppMain {
 
     public static void main(String[] args) {
 
-        int ordersTotal = 0;
+        // 1) Crear el Subject (publisher de eventos)
+        OrderSubject publisher = new OrderEventPublisher();
 
-        ObserverInt email1 = new EmailImpl("luis@mail.net");
-        ObserverInt email2 = new EmailImpl("maria@net.com");
-        ObserverInt email3 = new EmailImpl("juan@mail.net");
+        // 2) Crear observers
+        OrderObserver emailObserver = new EmailOrderObserver();
+        OrderObserver logObserver = new LogOrderObserver();
+        OrderObserver statsObserver = new StatsOrderObserver();
 
-        ObserverInt log1 = new Log("Log1");
+        // 3) Suscribir observers al subject
+        publisher.addObserver(emailObserver);
+        publisher.addObserver(logObserver);
+        publisher.addObserver(statsObserver);
 
-        Order_int order = new Order_Email_impl();
-        order.subscribe(email1);
-        order.subscribe(email2);
-        order.subscribe(email3);
+        // 4) Crear el servicio usando el subject
+        OrderService orderService = new OrderService(publisher);
 
-        order.notify("Shipped!");
-
-        Order_int orderLog = new Order_Log_Impl();
-        orderLog.subscribe(log1);
-        orderLog.notify("Shipped!");
-        System.out.println("Total ordenes: " + ++ordersTotal);
-
-        order.notify("Order two, shipped!");
-        orderLog.notify("Order two, shipped!");
-        System.out.println("Total ordenes: " + ++ordersTotal);
+        // 5) Crear un pedido y enviarlo
+        Order order = new Order("ORD-001");
+        orderService.shipOrder(order); // esta función llama a cada observer
 
 
     }

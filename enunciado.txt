@@ -1,9 +1,11 @@
 Enunciado:
 
 Estás desarrollando un sistema de tienda online en Java.
-Cada vez que un pedido cambia al estado “ENVIADO”, deben ocurrir varias acciones:
+Cada vez que un pedido cambia al estado “ENVIADO”, deben ocurrir varias acciones
+(En este punto ya se entiende que la logica gira entorno a un modelo de dominio
+llamado pedido u order):
 
-Enviar un correo electrónico al cliente con el número de seguimiento.
+Enviar un correo electrónico al cliente con el número de seguimiento(del pedido).
 Registrar el evento en un log de auditoría.
 Notificar a un módulo de estadísticas para que incremente un contador de “pedidos enviados hoy”.
 
@@ -27,7 +29,6 @@ Tu tarea:
 Define las interfaces y clases necesarias para aplicar el patrón Observer a este problema.
 
 
-
 Incluye:
 
 Una clase que represente el Subject (el que emite el evento de “pedido enviado”).
@@ -35,3 +36,35 @@ Una interfaz de Observer y varias implementaciones: Email, Log, Estadísticas.
 Una clase Pedido sencilla y una clase PedidoService que, al marcar un pedido como “ENVIADO”,
     dispare las notificaciones a los observers.
 Una clase Main donde creas lo necesario, suscribes los observers y pruebas el flujo.
+
+
+PASO A PASO ORDENADO:
+
+1) CREAR EL MODELO DE DOMINIO (ORDER)
+
+2) CREAR LA INTERFACE DE SUBJECT(3 METODOS: ADD, REMOVE, NOTIFY_ALL este ultimo
+lleva un bucle for dentro)
+
+3) CREAR LA INTERFACE DE OBSERVER(1 METODO NOTIFICADOR)
+
+4) CREAR LA CLASE QUE IMPLEMENTA LA INTERFACE DE SUBJECT(CON LAS 3 FUNCIONES)
+
+5) CREAR LAS CLASES QUE IMPLEMENTAN LA INTERFACE DE OBSERVER(CON LA FUNCION QUE
+NOTIFICA A CADA OBSERVER)
+
+6) CREAR EL SERVICE. SE DECLARA LA INTERFACE DE SUBJECT, SE PASA POR CONSTRUCTOR,
+Y SE CREA UN METODO QUE TIENE COMO PARAMETRO UNA ORDER y CUYO CONTENIDO ES UN LLAMADO
+A LA FUNCION NOTIFICADORA DEL SUBJECT(LA QUE TIENE BUCLE FOR DENTRO) DENTRO DE ESTE
+BUCLE CADA ELEMENTO LLAMA EL UNICO METODO DEL OBSERVER
+
+7) CREAR EL APPMAIN.
+
+    A) CREAR EL SUBJECT
+    B) CREAR LOS 3 OBSERVERS
+    C) SUSCRIBIR LOS OBSERVERS AL SUBJECT
+    D) CREAR EL SERVICE(SE LE PASA EL SUBJECT COMO ARGUMENTO)
+    E) CREAR UN ORDER(MODELO DE DOMINIO)
+    F) LLAMAR AL METODO DEL SERVICE(SE LE PASA EL ORDER COMO ARGUMENTO)
+
+ En el main se llama al metodo del service. Este metodo del service es el
+ que llama o notifica a cada observer.
